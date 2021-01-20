@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 
 import Order from "../models/orderModel.js";
+import User from "../models/userModel.js";
 
 //@desc     Create new Order
 //@route    POST /api/orders
@@ -91,9 +92,35 @@ export const getMyOrders = asyncHandler(async (req, res) => {
 //@route    GET /api/orders
 //@access   Private/Admin
 export const getOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.find({}).populate("user", "id name");
+    const pageSize = 5;
+    const page = Number(req.query.pageNumber) || 1;
 
-    res.json(orders);
+    let user;
+    if (req.query.keyword) {
+        user = await User.findOne({
+            name: { $regex: req.query.keyword, $options: "i" },
+        });
+    }
+
+    let keyword;
+    if (!user) {
+        keyword = {};
+    } else {
+        keyword = { user: user._id };
+    }
+
+    const count = await Order.countDocuments({ ...keyword });
+
+    const orders = await Order.find({ ...keyword })
+        .populate("user", "id name")
+        .limit(pageSize)
+        .skip(pageSize * (page - 1));
+
+    res.status(200).send({
+        orders,
+        page,
+        pages: Math.ceil(count / pageSize),
+    });
 });
 
 //@desc     Update order to delivered

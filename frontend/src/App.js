@@ -51,7 +51,26 @@ function App() {
                         path="/admin/product/:id/edit"
                         component={ProductEditPage}
                     />
-                    <Route path="/admin/orderlist" component={OrderListPage} />
+                    <Route
+                        path="/admin/orderlist"
+                        component={OrderListPage}
+                        exact
+                    />
+
+                    <Route
+                        path="/admin/orderlist/page/:pageNumber"
+                        component={OrderListPage}
+                    />
+                    <Route
+                        path="/admin/orderlist/search/:keyword"
+                        component={OrderListPage}
+                        exact
+                    />
+                    <Route
+                        path="/admin/orderlist/search/:keyword/page/:pageNumber"
+                        component={OrderListPage}
+                    />
+
                     <Route path="/search/:keyword" component={HomePage} exact />
                     <Route
                         path="/search/:keyword/page/:pageNumber"

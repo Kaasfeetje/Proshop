@@ -27,8 +27,12 @@ function Header() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Route
-                            render={({ history }) => (
-                                <SearchBox history={history} />
+                            render={({ history, match, location }) => (
+                                <SearchBox
+                                    history={history}
+                                    match={match}
+                                    location={location}
+                                />
                             )}
                         />
                         <Nav className="ml-auto">

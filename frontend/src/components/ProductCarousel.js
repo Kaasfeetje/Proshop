@@ -13,7 +13,7 @@ function ProductCarousel() {
 
     useEffect(() => {
         dispatch(listTopProducts());
-    }, []);
+    }, [dispatch]);
     return loading ? (
         <Loader />
     ) : error ? (

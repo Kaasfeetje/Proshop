@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
-function SearchBox({ history }) {
+function SearchBox({ history, location }) {
     const [keyword, setKeyword] = useState("");
 
     const submitHandler = (e) => {
         e.preventDefault();
         if (keyword.trim()) {
-            history.push(`/search/${keyword}`);
+            if (location.pathname.startsWith("/admin/orderlist")) {
+                history.push(`/admin/orderlist/search/${keyword}`);
+            } else {
+                history.push(`/search/${keyword}`);
+            }
         } else {
-            history.push("/");
+            if (location.pathname.startsWith("/admin/orderlist")) {
+                history.push(`/admin/orderlist`);
+            } else {
+                history.push("/");
+            }
         }
     };
 
@@ -19,7 +27,11 @@ function SearchBox({ history }) {
                 type="text"
                 name="q"
                 onChange={(e) => setKeyword(e.target.value)}
-                placeholder="Search products..."
+                placeholder={
+                    location.pathname.startsWith("/admin/orderlist")
+                        ? "Search users..."
+                        : "Search products..."
+                }
                 className="mr-sm-2 ml-sm-5"
             ></Form.Control>
             <Button type="submit" variant="outline-success" className="p-2">

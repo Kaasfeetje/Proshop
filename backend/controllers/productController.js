@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 
 import Product from "../models/productModel.js";
+import Order from "../models/orderModel.js";
 
 //@desc     Fetch all Products
 //@route    GET /api/products
@@ -117,6 +118,18 @@ export const updateProduct = asyncHandler(async (req, res) => {
 export const createProductReview = asyncHandler(async (req, res) => {
     const { rating, comment } = req.body;
     const product = await Product.findById(req.params.id);
+
+    const order = await Order.findOne({
+        user: req.user._id,
+        "orderItems.product": product._id,
+    });
+
+    if (!order || !order.isPaid) {
+        res.status(400);
+        throw new Error(
+            "You must have purchased the product before you can leave a review"
+        );
+    }
 
     if (product) {
         const alreadyReviewed = product.reviews.find(

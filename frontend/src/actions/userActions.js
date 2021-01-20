@@ -1,7 +1,6 @@
 import axios from "axios";
 import {
     ORDER_LIST_MY_RESET,
-    ORDER_LIST_RESET,
     USER_DELETE_FAIL,
     USER_DELETE_REQUEST,
     USER_DELETE_SUCCESS,
@@ -65,6 +64,7 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("cartItems");
     dispatch({ type: USER_LOGOUT });
     dispatch({ type: USER_DETAILS_RESET });
     dispatch({ type: USER_LIST_RESET });
@@ -161,6 +161,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         const { data } = await axios.put(`/api/users/profile`, user, config);
 
         dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+        dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
         localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
