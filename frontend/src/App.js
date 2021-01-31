@@ -17,6 +17,7 @@ import UserEditPage from "./pages/UserEditPage";
 import ProductListPage from "./pages/ProductListPage";
 import ProductEditPage from "./pages/ProductEditPage";
 import OrderListPage from "./pages/OrderListPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
 
 function App() {
     return (
@@ -82,6 +83,7 @@ function App() {
                         component={HomePage}
                         exact
                     />
+                    <Route path="/admin/analytics" component={AnalyticsPage} />
                     <Route path="/" component={HomePage} exact />
                 </Container>
             </main>

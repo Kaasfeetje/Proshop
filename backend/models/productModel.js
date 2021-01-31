@@ -64,8 +64,20 @@ const productSchema = mongoose.Schema(
             required: true,
             default: 0,
         },
+        requestCount: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
     },
-    { timestamps: true }
+    {
+        timestamps: true,
+        toJSON: {
+            transform: function (doc, ret) {
+                delete ret.requestCount;
+            },
+        },
+    }
 );
 
 const Product = mongoose.model("Product", productSchema);

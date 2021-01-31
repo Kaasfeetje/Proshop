@@ -1,4 +1,7 @@
 import {
+    PRODUCT_ANALYTICS_FAIL,
+    PRODUCT_ANALYTICS_REQUEST,
+    PRODUCT_ANALYTICS_SUCCESS,
     PRODUCT_CREATE_FAIL,
     PRODUCT_CREATE_REQUEST,
     PRODUCT_CREATE_RESET,
@@ -124,6 +127,19 @@ export const productTopRatedReducer = (state = { products: [] }, action) => {
         case PRODUCT_TOP_SUCCESS:
             return { loading: false, products: action.payload };
         case PRODUCT_TOP_FAIL:
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
+
+export const productAnalytics = (state = {}, action) => {
+    switch (action.type) {
+        case PRODUCT_ANALYTICS_REQUEST:
+            return { loading: true };
+        case PRODUCT_ANALYTICS_SUCCESS:
+            return { loading: false, analytics: action.payload };
+        case PRODUCT_ANALYTICS_FAIL:
             return { loading: false, error: action.payload };
         default:
             return state;

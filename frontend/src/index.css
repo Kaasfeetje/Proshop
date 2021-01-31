@@ -45,3 +45,25 @@ h2 {
 .carousel a {
     margin: 0 auto;
 }
+
+th,
+td {
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+
+    color: #333333;
+    font-size: medium;
+}
+
+.chart {
+    position: relative;
+}
+
+.chart-heading {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    top: 0;
+}

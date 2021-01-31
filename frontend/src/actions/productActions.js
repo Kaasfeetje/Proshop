@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+    PRODUCT_ANALYTICS_FAIL,
+    PRODUCT_ANALYTICS_REQUEST,
+    PRODUCT_ANALYTICS_SUCCESS,
     PRODUCT_CREATE_FAIL,
     PRODUCT_CREATE_REQUEST,
     PRODUCT_CREATE_REVIEW_FAIL,
@@ -211,6 +214,37 @@ export const listTopProducts = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: PRODUCT_TOP_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const getProductAnalytics = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: PRODUCT_ANALYTICS_REQUEST });
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const config = {
+            "content-type": "application/json",
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+        const { data } = await axios.get(`/api/products/analytics`, config);
+        console.log(data);
+        dispatch({
+            type: PRODUCT_ANALYTICS_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_ANALYTICS_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message

@@ -73,7 +73,7 @@ function ProductListPage({ history, match }) {
         <>
             <Row className="align-items-center">
                 <Col>
-                    <h1>PRoducts</h1>
+                    <h1>Products</h1>
                 </Col>
                 <Col className="text-right">
                     <Button className="my-3" onClick={createProductHandler}>
@@ -142,7 +142,12 @@ function ProductListPage({ history, match }) {
                             ))}
                         </tbody>
                     </Table>
-                    <Paginate pages={pages} page={page} isAdmin={true} productList/>
+                    <Paginate
+                        pages={pages}
+                        page={page}
+                        isAdmin={true}
+                        productList
+                    />
                 </>
             )}
         </>

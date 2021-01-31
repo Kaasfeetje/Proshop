@@ -42,6 +42,9 @@ export const getProductById = asyncHandler(async (req, res) => {
         throw new Error("Product not found!");
     }
 
+    product.requestCount += 1;
+    await product.save();
+
     res.status(200).send(product);
 });
 
@@ -169,4 +172,27 @@ export const getTopProducts = asyncHandler(async (req, res) => {
     const products = await Product.find({}).sort({ rating: -1 }).limit(3);
 
     res.json(products);
+});
+
+//@desc     Get Analytics
+//@route    GET /api/products/analytics
+//@access   Private/Admin
+export const getAnalytics = asyncHandler(async (req, res) => {
+    const products = await Product.find({}).select("requestCount name");
+
+    const updatedProducts = await Promise.all(
+        products.map(async (product) => {
+            const orderCount = await Order.countDocuments({
+                "orderItems.product": product._id,
+            });
+            return {
+                _id: product._id,
+                name: product.name,
+                visitCount: product.requestCount,
+                orderCount: orderCount,
+            };
+        })
+    );
+
+    res.json(updatedProducts);
 });

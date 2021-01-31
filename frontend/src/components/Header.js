@@ -79,6 +79,11 @@ function Header() {
                                             Orders
                                         </NavDropdown.Item>
                                     </LinkContainer>
+                                    <LinkContainer to="/admin/analytics">
+                                        <NavDropdown.Item>
+                                            Analytics
+                                        </NavDropdown.Item>
+                                    </LinkContainer>
                                 </NavDropdown>
                             )}
                         </Nav>
